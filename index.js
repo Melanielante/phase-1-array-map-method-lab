@@ -11,6 +11,31 @@ const tutorials = [
   'what is JSONP?'
 ];
 
-const titleCased = () => {
-  return tutorials
+
+function titleCased() {
+  let preservedWords = ['OO', 'API', 'NaN', 'JSONP', 'StopPropagation', 'PreventDefault'];
+
+  return tutorials.map(title => {
+    return title
+      .split(" ")
+      .map(word => {
+        // Remove punctuation (only trailing) temporarily for comparison
+        let trailing = '';
+        if (/[^\w]$/.test(word)) {
+          trailing = word.slice(-1);
+          word = word.slice(0, -1);
+        }
+
+        let preserved = preservedWords.find(preservedWord =>
+          preservedWord.toLowerCase() === word.toLowerCase()
+        );
+
+        if (preserved) {
+          return preserved + trailing; // Add punctuation back
+        }
+
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() + trailing;
+      })
+      .join(" ");
+  });
 }
